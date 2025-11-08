@@ -1,3 +1,7 @@
+"""
+Flask web server for CheatSheet
+Provides web UI and API endpoints
+"""
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
@@ -5,27 +9,32 @@ import json
 import re
 import base64
 import os
-from pathlib import Path
-from dotenv import load_dotenv
+from .config import config
+from .agent import agent
 
-# Load environment variables
-load_dotenv()
 
-app = Flask(__name__)
+# Initialize Flask app
+app = Flask(
+    __name__,
+    template_folder=os.path.join(os.path.dirname(__file__), 'templates')
+)
 CORS(app)
 
-# OpenRouter API configuration
-API_KEY = os.getenv('OPENROUTER_API_KEY', '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')
-OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 def encode_pdf_to_base64(pdf_file):
     """Convert PDF file to base64 encoded string"""
     return base64.b64encode(pdf_file.read()).decode('utf-8')
 
+
+# ============ Web UI Routes ============
+
 @app.route('/')
 def index():
     """Serve the main page"""
-    return render_template('index.html')
+    return render_template('webui.html')
+
+
+# ============ PDF Upload API ============
 
 @app.route('/api/upload', methods=['POST'])
 def upload_pdf():
@@ -50,7 +59,7 @@ def upload_pdf():
         
         # Prepare OpenRouter API request
         headers = {
-            "Authorization": f"Bearer {API_KEY}",
+            "Authorization": f"Bearer {config.api_key}",
             "Content-Type": "application/json"
         }
         
@@ -102,23 +111,20 @@ Extract 5-15 key concepts depending on the document length and complexity. Focus
         ]
         
         payload = {
-            "model": "openai/gpt-4o",  # Using GPT-4 as gpt5 is not yet available
+            "model": config.llm.model,
             "messages": messages,
             "plugins": plugins
         }
         
         # Make API request
-        response = requests.post(OPENROUTER_URL, headers=headers, json=payload)
+        response = requests.post(config.llm.openrouter_url, headers=headers, json=payload)
         
         if response.status_code == 200:
             result = response.json()
-            # Extract the content from the response
             content = result.get('choices', [{}])[0].get('message', {}).get('content', '')
             
             # Try to parse the JSON response
             try:
-                # The response might have markdown code blocks, so we need to clean it
-                import re
                 # Remove markdown code blocks if present
                 json_match = re.search(r'```(?:json)?\s*(\[.*?\])\s*```', content, re.DOTALL)
                 if json_match:
@@ -129,11 +135,6 @@ Extract 5-15 key concepts depending on the document length and complexity. Focus
                     json_str = json_match.group(1) if json_match else content
                 
                 concepts = json.loads(json_str)
-                
-                # Save the extracted concepts to pdf2points_example.json
-                output_file = os.path.join(os.path.dirname(__file__), 'pdf2points_example.json')
-                with open(output_file, 'w', encoding='utf-8') as f:
-                    json.dump(concepts, f, ensure_ascii=False, indent=4)
                 
                 return jsonify({
                     'success': True,
@@ -158,6 +159,131 @@ Extract 5-15 key concepts depending on the document length and complexity. Focus
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+
+# ============ Course Management API ============
+
+@app.route('/api/courses', methods=['GET'])
+def get_courses():
+    """Get list of available courses"""
+    try:
+        courses = agent.mcp.get_courses()
+        return jsonify({'success': True, 'courses': courses})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/save_concepts', methods=['POST'])
+def save_concepts():
+    """Save concepts to database"""
+    try:
+        data = request.get_json()
+        concepts = data.get('concepts', [])
+        course_name = data.get('course_name', '')
+        
+        if not course_name:
+            return jsonify({'error': 'Course name is required'}), 400
+        
+        if not concepts:
+            return jsonify({'error': 'No concepts provided'}), 400
+        
+        # Process concepts using agent
+        result = agent.process_uploaded_concepts(concepts, course_name)
+        
+        return jsonify({
+            'success': True,
+            **result
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============ Quiz API ============
+
+@app.route('/api/generate_quizzes', methods=['POST'])
+def generate_quizzes():
+    """Generate quizzes for the uploaded concepts"""
+    try:
+        # Handle empty request body gracefully
+        data = request.get_json(silent=True) or {}
+        num_quizzes = data.get('num_quizzes', 10)
+        
+        print(f"\n[API] Generating {num_quizzes} quizzes...")
+        
+        # Generate quizzes using agent
+        quizzes = agent.generate_quizzes(num_quizzes=num_quizzes)
+        
+        print(f"[API] Generated {len(quizzes) if quizzes else 0} quizzes")
+        
+        if not quizzes:
+            print("[API] No concepts found for quiz generation")
+            return jsonify({'error': 'No concepts found'}), 404
+        
+        return jsonify({
+            'success': True,
+            'quizzes': quizzes,
+            'count': len(quizzes)
+        })
+        
+    except Exception as e:
+        print(f"\n[ERROR] Failed to generate quizzes: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/evaluate_answer', methods=['POST'])
+def evaluate_answer():
+    """Evaluate user's answer"""
+    try:
+        data = request.get_json()
+        user_answer = data.get('user_answer')
+        concept_ref = data.get('concept_ref')
+        concept = data.get('concept')
+        
+        if not user_answer or not concept:
+            return jsonify({'error': 'Missing required data'}), 400
+        
+        # Evaluate using agent
+        result = agent.evaluate_quiz_answer(
+            user_answer=user_answer,
+            correct_answer=None,  # For short answer, LLM will evaluate
+            concept_id=concept_ref
+        )
+        
+        return jsonify({
+            'success': True,
+            **result
+        })
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route('/api/system_prompt', methods=['GET'])
+def system_prompt():
+    """Get system prompt with resolved knowledge"""
+    try:
+        prompt_data = agent.mcp.get_system_prompt()
+        return jsonify({
+            'success': True,
+            'prompt_data': prompt_data
+        })
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+# ============ Main ============
+
+def run_server():
+    """Run the Flask server"""
+    app.run(
+        host=config.server.host,
+        port=config.server.port,
+        debug=config.server.debug
+    )
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    run_server()
 

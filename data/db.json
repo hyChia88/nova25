@@ -1,11 +1,11 @@
 {
-  "USER_PROFILE":{
+  "USER_PROFILE": {
     "major": "computational deisgn",
     "career_goal": "software engineer",
     "profile": [
-        "User studied architecture; has domain knowledge.",
-        "Studied discrete math; weaker in software construction.",
-        "Wants to learn more 3D generation methods."
+      "User studied architecture; has domain knowledge.",
+      "Studied discrete math; weaker in software construction.",
+      "Wants to learn more 3D generation methods."
     ]
   },
   "COURSES": {
@@ -169,6 +169,318 @@
         ],
         "timestamp": "2025-08-11T00:00:00Z",
         "freshness": 0.76
+      },
+      "so-2025-11-08-001": {
+        "title": "Design for Reuse",
+        "content": [
+          "Designing for reuse is essential in software engineering to enhance code maintainability and extensibility. This involves using composition and inheritance appropriately to achieve code reuse."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-002": {
+        "title": "Behavioral Subtyping",
+        "content": [
+          "Behavioral subtyping ensures that a subclass can be used in place of a superclass. It maintains the expectations of the superclass and allows more specific but compatible behavior in subclasses."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-003": {
+        "title": "Inheritance vs. Composition",
+        "content": [
+          "Inheritance allows for code reuse by creating a subclass from an existing superclass. Composition involves the use of objects in other classes to achieve reuse. Each has benefits and drawbacks, and their use should be context-dependent."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-004": {
+        "title": "Template Method Pattern",
+        "content": [
+          "The template method pattern uses inheritance to define a basic algorithm structure in a superclass and allows subclasses to define specific behaviors without changing the algorithm's structure."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-005": {
+        "title": "Strategy Pattern",
+        "content": [
+          "This pattern uses delegation to allow the algorithm to vary independently from the context in which it's used. Strategy objects are reusable and can be swapped to offer flexibility."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-006": {
+        "title": "Class Hierarchy",
+        "content": [
+          "Classes in object-oriented programming are organized in a hierarchy where a class can inherit characteristics from parent classes. Understanding these relationships is pivotal in designing robust systems."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-007": {
+        "title": "Fragile Base Class Problem",
+        "content": [
+          "This problem arises when changes to a superclass unexpectedly affect subclasses. It underscores the risks of tightly coupling subclasses to the internal details of their superclasses."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-008": {
+        "title": "Dynamic Dispatch",
+        "content": [
+          "In Java, dynamic dispatch allows method calls to be resolved at runtime depending on the object's type, facilitating polymorphic behavior."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-009": {
+        "title": "Delegation for Reuse",
+        "content": [
+          "Delegation involves an object relying on another for specific functionality, promoting reuse. It supports more flexible designs by separating responsibilities among different objects."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-010": {
+        "title": "Interface Inheritance",
+        "content": [
+          "Interface inheritance allows classes to implement multiple interfaces, offering a way to ensure that an object offers specific behavior without dictating how it should be achieved."
+        ],
+        "timestamp": "2025-11-08T17:21:50.469506Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-011": {
+        "title": "Java Language Features for Inheritance",
+        "content": [
+          "Java supports inheritance with features like final to restrict inheritance and methods, and abstract classes that require subclass implementation."
+        ],
+        "timestamp": "2025-11-08T17:23:58.547559Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-012": {
+        "title": "Delegation for Code Reuse",
+        "content": [
+          "Delegation involves an object relying on another for some functionality, promoting code reuse and modular design by separating responsibilities."
+        ],
+        "timestamp": "2025-11-08T17:23:58.547559Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-013": {
+        "title": "Liskov Substitution Principle",
+        "content": [
+          "This principle states that objects of the superclass should be replaceable with objects of a subclass without affecting the correctness of the program."
+        ],
+        "timestamp": "2025-11-08T17:23:58.547559Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-014": {
+        "title": "Class Hierarchies in OOP",
+        "content": [
+          "Object-oriented programming organizes classes into hierarchies, enabling polymorphism and code reuse, but demands careful design consideration to prevent excessive coupling."
+        ],
+        "timestamp": "2025-11-08T17:23:58.547559Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-015": {
+        "title": "Principles of Software Construction",
+        "content": [
+          "Focuses on object-oriented design and concurrency, with a specific look into inheritance and delegation."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-016": {
+        "title": "Design Reuse",
+        "content": [
+          "Design for reuse is crucial and can be achieved through composition and inheritance, each having unique benefits and challenges."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-017": {
+        "title": "Array-Based Integer List",
+        "content": [
+          "An example implementation of an integer list in Java demonstrates techniques of reuse through interfaces, illustrating practical design principles."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-018": {
+        "title": "Inheritance in Java",
+        "content": [
+          "Inheritance allows a subclass to extend a superclass, adding new methods and fields while potentially overriding existing ones with compatible signatures."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-019": {
+        "title": "Composition and Delegation",
+        "content": [
+          "These are alternatives to inheritance, promoting reuse through object interaction and delegation of responsibilities, leading to more modular and testable design."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-020": {
+        "title": "Dynamic Dispatch in Java",
+        "content": [
+          "Java determines method execution at runtime based on the object’s dynamic class, enabling polymorphic behavior."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-021": {
+        "title": "Class Hierarchies and Inheritance",
+        "content": [
+          "Class hierarchies form the backbone of object-oriented languages, supporting polymorphism and code reuse but often at the expense of tight coupling."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-022": {
+        "title": "LoggingList Inheritance Trade-Offs",
+        "content": [
+          "Inheriting from IntArrayList for LoggingList implementation shows reuse benefits but highlights the 'fragile base class' problem due to tight coupling and implementation dependence."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-023": {
+        "title": "Language Features for Enforcing Types",
+        "content": [
+          "Java and TypeScript offer various language features to enforce inheritance rules and promote type safety, such as final classes and methods."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-024": {
+        "title": "Decisions in Inheritance",
+        "content": [
+          "Design decisions around inheritance vs. composition should consider 'is-a' relationships, the potential for code reuse, and the risk of over-coupling."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-025": {
+        "title": "Subtyping vs. Inheritance",
+        "content": [
+          "While inheritance focuses on code reuse through polymorphism, subtyping is purely a matter of substitutability, ensuring consistent behavior across types."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-026": {
+        "title": "Java and TypeScript Inheritance",
+        "content": [
+          "Both languages support inheritance with unique features and constraints, offering flexibility while maintaining type integrity."
+        ],
+        "timestamp": "2025-11-08T17:25:56.520386Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-027": {
+        "title": "Class Hierarchy Basics",
+        "content": [
+          "Explains the structure and terminology of class hierarchies, including concepts like superclass, subclass, and dynamic dispatch semantics."
+        ],
+        "timestamp": "2025-11-08T17:29:55.121689Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-028": {
+        "title": "Interface Inheritance in Java and TypeScript",
+        "content": [
+          "Covers interface inheritance, allowing one interface to inherit methods from another, which is important for creating cohesive and extendable APIs."
+        ],
+        "timestamp": "2025-11-08T17:29:55.121689Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-029": {
+        "title": "Use of Delegation",
+        "content": [
+          "Emphasizes how delegation can extend functionality and promote code reuse by allowing one object to rely on another object for specific behaviors."
+        ],
+        "timestamp": "2025-11-08T17:29:55.121689Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-030": {
+        "title": "Design Considerations for Inheritance",
+        "content": [
+          "Outlines best practices for using inheritance, such as documenting method contracts and considering alternative approaches like composition and delegation."
+        ],
+        "timestamp": "2025-11-08T17:29:55.121689Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-031": {
+        "title": "Dynamic Dispatch Semantics",
+        "content": [
+          "Covers the process in object-oriented languages where the method to be invoked on an object is determined at runtime, based on the object's dynamic class."
+        ],
+        "timestamp": "2025-11-08T17:29:55.121689Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-032": {
+        "title": "Inheritance Overview",
+        "content": [
+          "Inheritance is a mechanism in object-oriented programming that allows a subclass to inherit methods and fields from a superclass, promoting code reuse and polymorphism."
+        ],
+        "timestamp": "2025-11-08T17:32:04.072026Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-033": {
+        "title": "Dynamic Dispatch in OOP",
+        "content": [
+          "Dynamic dispatch determines the method implementations to invoke at runtime based on the dynamic type, enabling polymorphic behavior."
+        ],
+        "timestamp": "2025-11-08T17:32:04.072026Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-034": {
+        "title": "Java Inheritance Rules",
+        "content": [
+          "In Java, subclass methods must have compatible signatures with the superclass, and overridable methods should not throw more exceptions than specified."
+        ],
+        "timestamp": "2025-11-08T17:32:04.072026Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-035": {
+        "title": "Software Construction Principles",
+        "content": [
+          "The document covers principles of software construction including inheritance, delegation, design, and concurrency."
+        ],
+        "timestamp": "2025-11-08T17:34:39.608807Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-036": {
+        "title": "Santorini Game Assignment",
+        "content": [
+          "An assignment regarding the design and implementation of the game Santorini was released, with strict deadlines and peer review requirements mentioned."
+        ],
+        "timestamp": "2025-11-08T17:34:39.608807Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-037": {
+        "title": "Modeling Techniques",
+        "content": [
+          "Discussion on object and interaction diagrams, assigning responsibilities, and design principles like low coupling and high cohesion."
+        ],
+        "timestamp": "2025-11-08T17:34:39.608807Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-038": {
+        "title": "Inheritance and Composition",
+        "content": [
+          "Compares inheritance and composition, detailing how they enable code reuse and their respective trade-offs in software design."
+        ],
+        "timestamp": "2025-11-08T17:34:39.608807Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-039": {
+        "title": "Design Patterns: Template vs Strategy",
+        "content": [
+          "Describes the Template Method and Strategy design patterns, highlighting the use of inheritance and delegation to vary algorithms."
+        ],
+        "timestamp": "2025-11-08T17:34:39.608807Z",
+        "freshness": 0.0
       }
     },
     "MACHINE_LEARNING": {
