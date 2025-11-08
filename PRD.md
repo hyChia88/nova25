@@ -4,13 +4,14 @@
 ## Basic
 
 ## Basic Functionality(for MVP)
-1. A web page for uploading PDF files, with an OpenRouter API call that can process the file and generate a summary.
+1. A web page for uploading PDF files, with an OpenRouter API call that can process the file and generate a list of concepts (json format).
    1. Openrouter:
       1. model: gpt5
       2. how? see the openrouter.md
       3. api_key: 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
+   2. 
 
-
+2. 
 
 
 ## UI
