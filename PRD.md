@@ -1,7 +1,21 @@
 # CheatSheet PRD
 ## Introduction
 
-## Basic
+## Data
+1. `db.json`
+   1. "USER_PROFILE"
+   2. "COURSES"
+      1. 用来分course存储知识点
+2. `knowledge_distributed_map.json`
+   1. "TODAY": 今天新加入的知识点
+   2. "LONG_TERM": 和“USER_PROFILE”相关的知识点（相对固定）
+   3. "SHORT_TERM": 根据timestamp 找到 今年的知识点（和当前timestamp对比）
+3. `cur_progress.json`
+   1. 用来log user quiz interaction
+      1. 每条quiz过的知识点：
+         1. update freshness_score
+         2. add a LLM-summarized log
+
 
 ## Basic Functionality(for MVP)
 1. A web page for uploading PDF files, with an OpenRouter API call that can process the file and generate a list of concepts (json format).
@@ -48,11 +62,12 @@
           3. "Generated <num> key points."
           4. show 3 key points
           5. "Storing to the base"
-          6. "Generating quizzes"
-          7. "Generated <num> quizzes."
-          8. a button: "Start quiz"
+          6. "Distribing the points"
+          7. "Generating quizzes"
+          8. "Generated <num> quizzes."
+          9. a button: "Start quiz"
 3. Generate and display quizzes
-   1. For each concept point, generate a piece of quiz
+   1. For each concept point, generate a piece of quiz, based on `cur_progress.json` + `knowledge_distributed_map.json`
       1. there are 3 kinds of quizzes, can be 3 different *TOOL*s:
          1. single choice
          2. multiple choice
@@ -64,9 +79,8 @@
    1. let the user answer the quiz
    2. *TOOL*s: 
       1. evaluate `user_answer`, either it's good or bad:
-      2. update the point's `freshness_score`
-      3. add an entry in the point's `log` (e.g.: Not familiar with ..., wrong concept of ...; or the user )
-      4. 
+      2. update the point's `freshness_score` (in `cur_progress.json`)
+      3. add an entry in the point's `log` (in `cur_progress.json`)  (e.g.: Not familiar with ..., wrong concept of ...; or the user )
 
 ### MCP tool list:   `
 1. `distributeData(new input data in structure) -> return knowledge_distributed_map`
@@ -106,4 +120,7 @@ light mode
       8.  a button: "Start quiz"
 3. Quiz screen
    1. one quiz at a time
+   2. if there is a explanation generated
+      1. display the explanation bellow.
+      2. display a "I got it!" button
    
