@@ -9,8 +9,19 @@
       1. model: gpt5
       2. how? see the openrouter.md
       3. api_key: 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
-   2. 
-
+   2. the output format
+        [
+            {
+                "title": "title of the concept",
+                "content": "description of the concept"
+            },
+            {
+                "title": "title of the concept",
+                "content": "description of the concept"
+            },
+            ...
+        ]
+    3. 将结果解析并写进`pdf2points_example.json`
 2. 
 
 

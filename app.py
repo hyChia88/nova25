@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import requests
+import json
+import re
 import base64
 import os
 from pathlib import Path
@@ -58,7 +60,25 @@ def upload_pdf():
                 "content": [
                     {
                         "type": "text",
-                        "text": "Please analyze this document and provide a comprehensive summary. Include the main topics, key points, and important details."
+                        "text": """Please analyze this document and extract the key concepts, topics, and important information.
+                        
+Return the result in JSON format as a list of concepts. Each concept should have:
+- "title": A concise title for the concept (2-5 words)
+- "content": A clear description or explanation of the concept (1-3 sentences)
+
+Format the response as a valid JSON array like this:
+[
+    {
+        "title": "title of the concept",
+        "content": "description of the concept"
+    },
+    {
+        "title": "title of the concept",
+        "content": "description of the concept"
+    }
+]
+
+Extract 5-15 key concepts depending on the document length and complexity. Focus on the most important and useful information."""
                     },
                     {
                         "type": "file",
@@ -92,13 +112,43 @@ def upload_pdf():
         
         if response.status_code == 200:
             result = response.json()
-            # Extract the summary from the response
-            summary = result.get('choices', [{}])[0].get('message', {}).get('content', 'No summary generated')
-            return jsonify({
-                'success': True,
-                'summary': summary,
-                'filename': file.filename
-            })
+            # Extract the content from the response
+            content = result.get('choices', [{}])[0].get('message', {}).get('content', '')
+            
+            # Try to parse the JSON response
+            try:
+                # The response might have markdown code blocks, so we need to clean it
+                import re
+                # Remove markdown code blocks if present
+                json_match = re.search(r'```(?:json)?\s*(\[.*?\])\s*```', content, re.DOTALL)
+                if json_match:
+                    json_str = json_match.group(1)
+                else:
+                    # If no code blocks, try to find JSON array directly
+                    json_match = re.search(r'(\[.*\])', content, re.DOTALL)
+                    json_str = json_match.group(1) if json_match else content
+                
+                concepts = json.loads(json_str)
+                
+                # Save the extracted concepts to pdf2points_example.json
+                output_file = os.path.join(os.path.dirname(__file__), 'pdf2points_example.json')
+                with open(output_file, 'w', encoding='utf-8') as f:
+                    json.dump(concepts, f, ensure_ascii=False, indent=4)
+                
+                return jsonify({
+                    'success': True,
+                    'concepts': concepts,
+                    'filename': file.filename
+                })
+            except (json.JSONDecodeError, AttributeError) as e:
+                # If parsing fails, return the raw content
+                return jsonify({
+                    'success': True,
+                    'concepts': [],
+                    'raw_content': content,
+                    'filename': file.filename,
+                    'warning': 'Could not parse JSON response'
+                })
         else:
             return jsonify({
                 'error': f'API request failed: {response.status_code}',

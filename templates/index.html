@@ -94,6 +94,15 @@
             font-weight: 500;
             margin-bottom: 1rem;
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .save-indicator {
+            font-size: 0.85rem;
+            color: #4CAF50;
+            font-weight: normal;
         }
 
         .filename {
@@ -102,10 +111,42 @@
             margin-bottom: 1.5rem;
         }
 
-        .summary {
-            line-height: 1.8;
-            color: #444;
-            white-space: pre-wrap;
+        .concepts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .concept-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .concept-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-color: #ccc;
+        }
+
+        .concept-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 0.5rem;
+        }
+
+        .concept-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .concepts-count {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 1rem;
         }
 
         .loading {
@@ -188,9 +229,13 @@
         <div class="error" id="error"></div>
 
         <div class="result-area" id="resultArea">
-            <div class="result-header">Summary</div>
+            <div class="result-header">
+                <span>Key Concepts</span>
+                <span class="save-indicator">✓ Saved to pdf2points_example.json</span>
+            </div>
             <div class="filename" id="filename"></div>
-            <div class="summary" id="summary"></div>
+            <div class="concepts-count" id="conceptsCount"></div>
+            <div class="concepts-list" id="conceptsList"></div>
         </div>
 
         <button class="reset-btn" id="resetBtn">Upload Another File</button>
@@ -203,7 +248,8 @@
         const error = document.getElementById('error');
         const resultArea = document.getElementById('resultArea');
         const filename = document.getElementById('filename');
-        const summary = document.getElementById('summary');
+        const conceptsCount = document.getElementById('conceptsCount');
+        const conceptsList = document.getElementById('conceptsList');
         const resetBtn = document.getElementById('resetBtn');
 
         // Click to upload
@@ -282,9 +328,41 @@
                 if (response.ok && data.success) {
                     // Show result
                     filename.textContent = `File: ${data.filename}`;
-                    summary.textContent = data.summary;
-                    resultArea.classList.add('visible');
-                    resetBtn.classList.add('visible');
+                    
+                    if (data.concepts && data.concepts.length > 0) {
+                        // Display concepts
+                        conceptsCount.textContent = `${data.concepts.length} concept${data.concepts.length > 1 ? 's' : ''} extracted`;
+                        conceptsList.innerHTML = '';
+                        
+                        data.concepts.forEach((concept, index) => {
+                            const card = document.createElement('div');
+                            card.className = 'concept-card';
+                            
+                            const title = document.createElement('div');
+                            title.className = 'concept-title';
+                            title.textContent = concept.title || `Concept ${index + 1}`;
+                            
+                            const content = document.createElement('div');
+                            content.className = 'concept-content';
+                            content.textContent = concept.content || 'No description available';
+                            
+                            card.appendChild(title);
+                            card.appendChild(content);
+                            conceptsList.appendChild(card);
+                        });
+                        
+                        resultArea.classList.add('visible');
+                        resetBtn.classList.add('visible');
+                    } else if (data.raw_content) {
+                        // Fallback: show raw content if JSON parsing failed
+                        conceptsCount.textContent = 'Could not parse concepts (showing raw response)';
+                        conceptsList.innerHTML = `<div class="concept-card"><div class="concept-content">${data.raw_content}</div></div>`;
+                        resultArea.classList.add('visible');
+                        resetBtn.classList.add('visible');
+                    } else {
+                        showError('No concepts extracted from the document');
+                        resetBtn.classList.add('visible');
+                    }
                 } else {
                     showError(data.error || 'Failed to process file');
                     resetBtn.classList.add('visible');
