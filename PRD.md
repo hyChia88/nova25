@@ -68,6 +68,13 @@
       3. add an entry in the point's `log` (e.g.: Not familiar with ..., wrong concept of ...; or the user )
       4. 
 
+### MCP tool list:   `
+1. `distributeData(structured_dataset_json): return knowledge_distributed_map`
+description: When new tool
+
+### General tool functions:
+
+
 
 ## UI
 ### Style
