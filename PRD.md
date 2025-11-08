@@ -57,12 +57,17 @@
       4. 
 
 ### MCP tool list:   `
-1. `distributeData(structured_dataset_json): return knowledge_distributed_map`
-description: When new tool
+1. `distributeData(new input data in structure) -> return knowledge_distributed_map`
+description: When new data is input into the system, append and update db.json,  knowledge_distributed_map.
 
-### General tool functions:
+2. `databaseSearch(input_prompt, db.json, knowledge_distributed_map) -> return actual_reference_db_to_gen_next`
+   imp_base = ALL_COURSE.find according "FOUNDATION/LONG_TERM"
+   partial_related = ALL_COURSE.find according "SHORT_TERM/THIS_SEM"
+   today = ALL_COURSE.find according “TODAY”  # focus this on generate
+   actual_reference_db_to_gen_next = modal( "FOUNDATION/LONG_TERM", input_prompt)  # based on foundation/LONG_TERM, decide what else in databse is related, give back id in ALL_COURSE
+   return actual_reference_db_to_gen_next
 
-
+3. decideNext()
 
 ## UI
 ### Style
