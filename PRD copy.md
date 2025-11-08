@@ -65,25 +65,9 @@
           3. "Generated <num> key points."
           4. show 3 key points
           5. "Storing to the base"
-          6. "Distribing the points"
-          7. "Generating quizzes"
-          8. "Generated <num> quizzes."
-          9. a button: "Start quiz"
-
-### Part 2 databaseSearch & init learn:
-2. Prepare data to generate quizzes/learning session:
-   1. use function `databaseSearch()` Retrieve actual reference set for generation/quiz based on user intent. Default user intent is "Learn this course according to the material." Output the reference data to generate quiz as next step.
-   output:
-      ```
-         {
-         "actual_reference_db":[
-            "courses/SOFTWARE_CONSTRUCTION/sc-2025-08-11-001",
-            "courses/SOFTWARE_CONSTRUCTION/sc-2025-01-11-003"
-         ],
-         "explanation":"Selected TODAY + LONG_TERM matches with 'concurrency' and 'decorator'."
-         }
-      ```
-   2. `getCurProgress()` generate cur_progress.json  for runtime db
+          6. "Generating quizzes"
+          7. "Generated <num> quizzes."
+          8. a button: "Start quiz"
 3. Generate and display quizzes
    1. For each concept point, generate a piece of quiz, based on `cur_progress.json` + `knowledge_distributed_map.json`
       1. there are 3 kinds of quizzes, can be 3 different *TOOL*s:
