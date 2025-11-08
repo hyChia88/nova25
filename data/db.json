@@ -1,0 +1,241 @@
+{
+  "USER_PROFILE":{
+    "major": "computational deisgn",
+    "career_goal": "software engineer",
+    "profile": [
+        "User studied architecture; has domain knowledge.",
+        "Studied discrete math; weaker in software construction.",
+        "Wants to learn more 3D generation methods."
+    ]
+  },
+  "COURSES": {
+    "SOFTWARE_CONSTRUCTION": {
+      "sc-2025-01-11-001": {
+        "title": "Software Construction Overview",
+        "content": [
+          "The course focuses on principles related to objects, design, and concurrency in software construction. It includes assignments, exams, and collaborative learning activities."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-002": {
+        "title": "Learning Goals",
+        "content": [
+          "The goals include understanding the decorator pattern, applying software design patterns, and improving confidence in reasoning about software design problems."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-003": {
+        "title": "Decorator Pattern Introduction",
+        "content": [
+          "The decorator pattern allows for adding responsibilities to objects dynamically at runtime. It offers more flexibility than inheritance by enabling the composition of behaviors without large, complex class hierarchies."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-004": {
+        "title": "Limitations of Inheritance",
+        "content": [
+          "Inheritance can lead to issues such as combinatorial explosion and massive code replication when trying to extend data structures with multiple, overlapping features."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-005": {
+        "title": "Stack Extensions Example",
+        "content": [
+          "The need for composable stack extensions (e.g., UndoStack, SecureStack) demonstrates the limitations of inheritance in handling complex feature combinations efficiently."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-006": {
+        "title": "Decorator Pattern Implementation",
+        "content": [
+          "The pattern defines a decorator object that implements an extended object interface, allowing additional functionality to be performed before or after forwarding requests, thereby avoiding large class hierarchies."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-007": {
+        "title": "Java Util Collections Decorators",
+        "content": [
+          "Java's util.Collections library provides helper methods like unmodifiableList and synchronizedList that apply the decorator pattern to make collections immutable or thread-safe."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-008": {
+        "title": "Trouble Game Rules Overview",
+        "content": [
+          "Trouble is a board game for 2-4 players where pieces move clockwise based on dice rolls. Specific rolls are needed to exit home and reach the finish zone, with the goal of moving all pieces to the finish zone first."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-01-11-009": {
+        "title": "Design Challenges",
+        "content": [
+          "Successful design involves making choices; there is no single correct design, but rather many possible incorrect designs. Understanding patterns and design principles assists in making informed decisions."
+        ],
+        "timestamp": "2025-01-11T00:00:00Z",
+        "freshness": 0.18
+      },
+      "sc-2025-08-11-001": {
+        "title": "Formalizing Concurrency",
+        "content": [
+          "Concurrency involves multiple threads running at the same time, but not necessarily executing in parallel. It's important to differentiate concurrency from parallelism to avoid misconceptions."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-002": {
+        "title": "Thread Basics",
+        "content": [
+          "A thread is a flow of execution in a program, where tasks are performed in sequence. Threads can be created, started, blocked, and terminated, and they share the same address space within a program."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-003": {
+        "title": "Java Thread Implementations",
+        "content": [
+          "The `java.lang.Runnable` interface represents a task, while the `java.lang.Thread` class can execute a task in a separate thread. This allows for multithreaded operations in Java applications."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-004": {
+        "title": "Reasons to Use Threads",
+        "content": [
+          "Threads improve performance by allowing for non-blocking activities and taking advantage of multi-core processors. They are essential in modern computing environments to ensure efficient resource utilization."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-005": {
+        "title": "Concurrency Hazards",
+        "content": [
+          "Concurrent programming introduces safety risks such as race conditions, deadlocks, and liveliness failures. Proper synchronization strategies are required to mitigate these risks."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-006": {
+        "title": "Thread Safety",
+        "content": [
+          "Thread safety means that a class behaves correctly when accessed by multiple threads. This requires proper synchronization to prevent state corruption, visibility failures, and deadlocks."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-007": {
+        "title": "Immutability in Concurrency",
+        "content": [
+          "Immutable objects are inherently thread-safe because their state cannot be changed after creation. Designing programs with immutable objects simplifies concurrency management."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-008": {
+        "title": "Synchronization Techniques",
+        "content": [
+          "Synchronization ensures that shared resources are accessed in a controlled manner. Java provides intrinsic locks and synchronized methods as tools for concurrency control."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-009": {
+        "title": "Atomicity",
+        "content": [
+          "An operation is atomic if it is indivisible, with no intermediate states visible to other threads. While some simple actions like reading and writing int variables are atomic in Java, others, like increment operations, are not."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-010": {
+        "title": "Aliasing and Defensive Copies",
+        "content": [
+          "Aliasing occurs when multiple references point to the same mutable data, potentially causing race conditions. Defensive copying can mitigate this by ensuring immutable data structures are maintained."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "sc-2025-08-11-011": {
+        "title": "Performance Implications of Immutability",
+        "content": [
+          "While immutability offers safety benefits, it can lead to performance overhead due to object copies. Strategies such as using mutable helpers (e.g., StringBuilder for Strings) can balance safety with efficiency."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      }
+    },
+    "MACHINE_LEARNING": {
+      "ml-2025-08-11-001": {
+        "title": "In-Class Polls",
+        "content": [
+          "Students are required to participate in in-class polls via a Google form, providing answers during the lecture for full credit or within 24 hours for half credit. There is a limit on using 'free poll points'."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-002": {
+        "title": "Recursive vs. Iterative Search",
+        "content": [
+          "Decision trees can implement searches recursively or iteratively; both methods ensure efficient navigation through tree nodes to locate target values."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-003": {
+        "title": "Decision Stump",
+        "content": [
+          "A decision stump is a single-level decision tree that predicts outcomes based on a single feature, serving as a simple classifier with potential training errors."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-004": {
+        "title": "Decision Tree Prediction",
+        "content": [
+          "Decision trees predict outcomes by traversing from root to leaf nodes, using features to inform branching decisions, and arriving at a final classification label at the leaf."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-005": {
+        "title": "Splitting Criterion in Decision Trees",
+        "content": [
+          "Effective building of decision trees involves selecting the best splitting attribute using criteria such as error rate, accuracy, mutual information, and Gini gain."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-006": {
+        "title": "Entropy",
+        "content": [
+          "Entropy measures the uncertainty or impurity in a set; higher entropy indicates greater disorder, making it a crucial concept in decision tree splitting."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-007": {
+        "title": "Mutual Information",
+        "content": [
+          "Mutual information quantifies the clarity gained about one random variable by knowing another, helping to determine the best feature splits in decision trees."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      },
+      "ml-2025-08-11-008": {
+        "title": "Recursive Training for Decision Trees",
+        "content": [
+          "The recursive training process for decision trees involves constructing nodes by evaluating attributes' effectiveness, leading to either a leaf with a clear label or further splitting."
+        ],
+        "timestamp": "2025-08-11T00:00:00Z",
+        "freshness": 0.76
+      }
+    }
+  }
+}
