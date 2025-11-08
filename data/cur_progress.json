@@ -1,0 +1,26 @@
+{
+  "AI_FEEDBACK": {
+    "COURSES/SOFTWARE_CONSTRUCTION/so-2025-11-08-001": {
+      "freshness": 0.0,
+      "log": [
+        "[Concept] Struggling with applying 'design for reuse' principles, particularly distinguishing when to use composition vs. inheritance; persistent difficulty indicated by repeated zero scores. Review foundational examples of both techniques and practice refactoring simple code snippets to reinforce understanding. Consider guided exercises focusing on recognizing appropriate use cases for each method to build confidence and correct misconceptions.",
+        "[Concept] Student struggles to differentiate when to use composition versus inheritance in 'design for reuse,' consistently misunderstanding these principles as indicated by repeated zero scores; progress remains stagnant. Next, revisit foundational examples and practice refactoring simple code snippets to reinforce understanding. Engage in guided exercises to recognize appropriate use cases for each method, which will help build confidence and correct misconceptions.",
+        "[Concept] Continues to confuse composition and inheritance in 'design for reuse,' evident from repeated zero scores and difficulty applying principles; current understanding lacks depth in distinguishing use cases. To advance, revisit foundational examples with a focus on practical refactoring exercises and guided scenarios to clarify appropriate application, thereby correcting misconceptions and building confidence in selecting the right technique."
+      ]
+    },
+    "COURSES/SOFTWARE_CONSTRUCTION/so-2025-11-08-002": {
+      "freshness": 0.0,
+      "log": [
+        "[Concept] The student misunderstands behavioral subtyping, failing to grasp that subclasses must fulfill superclass contracts while allowing specific extensions. Score of 0/100 on first attempt highlights a foundational gap. Patterns suggest difficulty with abstraction principles in OOP. Next steps: Review Liskov Substitution Principle examples and compare subclass-superclass relationships through hands-on coding exercises to reinforce understanding.",
+        "[Concept] The student struggles with understanding that behavioral subtyping requires subclasses to honor superclass contracts while adding specific behaviors, as indicated by a consistent score of 0/100. Patterns show difficulty with abstraction in OOP. Next steps: Reinforce learning through hands-on exercises focusing on the Liskov Substitution Principle, comparing subclass-superclass dynamics to solidify understanding.",
+        "[Concept] The student understands the essence of compatible behavior in behavioral subtyping but consistently misses that subclasses must fulfill superclass contracts, as shown by repeated scores of 0/100. This reflects a struggle with abstraction in OOP. To improve, focus on the Liskov Substitution Principle through hands-on coding that contrasts superclass-subclass dynamics, reinforcing the necessity of maintaining superclass expectations while allowing subclass-specific extensions."
+      ]
+    },
+    "COURSES/SOFTWARE_CONSTRUCTION/so-2025-11-08-003": {
+      "freshness": 0.0,
+      "log": [
+        "[Concept] The student has a fundamental misunderstanding of inheritance and composition, as evidenced by scoring 0/100 and incorrect responses; they lack awareness of how these concepts facilitate code reuse. No progress is observed from the first attempt. Next steps: Review foundational materials on object-oriented programming, focusing on differentiating the use cases and benefits of inheritance vs. composition, and practice with real-world coding examples to reinforce understanding."
+      ]
+    }
+  }
+}

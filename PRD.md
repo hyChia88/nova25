@@ -120,10 +120,11 @@
     2. 进入Loading screen 
        1. 去掉目前的“Drop any files...”的区域下面的 “processing” 以及 “Key Concepts”区域
        2. 在处理的过程中在屏幕中心极简得显示每一步在做什么，包括：
+       3. 我希望有更明显地区分正在进行（加载）的进程和已完成的进程
           1. "Parsing the file..."
           2. "Generating the key points..."
           3. "Generated <num> key points."
-          4. show 3 key points
+          4. show 3 key points（最下面显示省略号）
           5. "Storing to the base"
           6. "Distributing the points"
           7. "Generating quizzes"

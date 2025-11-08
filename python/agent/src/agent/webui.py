@@ -14,9 +14,12 @@ from .agent import agent
 
 
 # Initialize Flask app
+# Get the project root directory (5 levels up from this file)
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))))
 app = Flask(
     __name__,
-    template_folder=os.path.join(os.path.dirname(__file__), 'templates')
+    template_folder=os.path.join(os.path.dirname(__file__), 'templates'),
+    static_folder=os.path.join(project_root, 'static')
 )
 CORS(app)
 
@@ -240,16 +243,51 @@ def evaluate_answer():
         user_answer = data.get('user_answer')
         concept_ref = data.get('concept_ref')
         concept = data.get('concept')
+        quiz_type = data.get('quiz_type', 'short_answer')
+        is_correct_preeval = data.get('is_correct')  # Pre-evaluated for choice questions
         
         if not user_answer or not concept:
             return jsonify({'error': 'Missing required data'}), 400
         
-        # Evaluate using agent
-        result = agent.evaluate_quiz_answer(
-            user_answer=user_answer,
-            correct_answer=None,  # For short answer, LLM will evaluate
-            concept_id=concept_ref
-        )
+        print(f"\n[API] Evaluating {quiz_type} answer for {concept_ref}")
+        
+        # For choice questions, use pre-evaluated result but generate intelligent feedback
+        if quiz_type in ['single_choice', 'multi_choice'] and is_correct_preeval is not None:
+            from mcp_cheatsheet.models import EvaluationResult
+            
+            # Generate intelligent feedback using LLM
+            intelligent_feedback = agent.mcp.tools._generate_instant_feedback(
+                concept=concept,
+                is_correct=is_correct_preeval,
+                user_answer=user_answer
+            )
+            
+            evaluation = EvaluationResult(
+                score=100 if is_correct_preeval else 0,
+                is_correct=is_correct_preeval,
+                feedback=intelligent_feedback
+            )
+            
+            # Update progress (will generate detailed log)
+            agent.mcp.update_freshness_and_log(concept_ref, evaluation)
+            
+            # Decide next
+            cur_progress = agent.mcp.get_cur_progress()
+            next_decision = agent.mcp.decide_next(cur_progress)
+            
+            result = {
+                'evaluation': evaluation.to_dict(),
+                'next_decision': next_decision.to_dict() if hasattr(next_decision, 'to_dict') else next_decision
+            }
+        else:
+            # For short answer, use agent's LLM evaluation
+            result = agent.evaluate_quiz_answer(
+                user_answer=user_answer,
+                correct_answer=None,
+                concept_id=concept_ref
+            )
+        
+        print(f"[API] Evaluation complete: {result.get('evaluation', {}).get('is_correct', False)}")
         
         return jsonify({
             'success': True,
@@ -257,6 +295,9 @@ def evaluate_answer():
         })
         
     except Exception as e:
+        print(f"[ERROR] Failed to evaluate answer: {e}")
+        import traceback
+        traceback.print_exc()
         return jsonify({'error': str(e)}), 500
 
 

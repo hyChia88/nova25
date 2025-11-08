@@ -232,12 +232,205 @@ Provide a JSON response with:
             new_freshness = evaluation_result.score / 100.0
             entry.freshness = (entry.freshness + new_freshness) / 2
         
-        # Add log entry
-        log_entry = f"[Score: {evaluation_result.score}] {evaluation_result.feedback}"
+        # Generate intelligent log entry using LLM
+        log_entry = self._generate_intelligent_log(
+            concept_id, 
+            evaluation_result, 
+            entry
+        )
         entry.log.append(log_entry)
         
         # Save updated progress
         self.db.update_progress(concept_id, entry)
+    
+    def _generate_instant_feedback(
+        self,
+        concept: dict,
+        is_correct: bool,
+        user_answer: str
+    ) -> str:
+        """
+        Generate instant, concise feedback for immediate display
+        
+        Args:
+            concept: Concept dictionary with title and content
+            is_correct: Whether the answer was correct
+            user_answer: User's submitted answer
+        
+        Returns:
+            Brief, encouraging feedback string (1-2 sentences)
+        """
+        try:
+            concept_title = concept.get('title', '')
+            concept_content = concept.get('content', [''])[0] if isinstance(concept.get('content'), list) else concept.get('content', '')
+            
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            
+            if is_correct:
+                prompt = f"""Generate brief, encouraging feedback (1-2 sentences, max 30 words) for a student who answered correctly.
+
+Concept: {concept_title}
+Description: {concept_content}
+
+Acknowledge their understanding and optionally mention a key insight they demonstrated.
+
+Your feedback:"""
+            else:
+                prompt = f"""Generate brief, constructive feedback (1-2 sentences, max 30 words) for a student who answered incorrectly.
+
+Concept: {concept_title}
+Description: {concept_content}
+Their answer: {user_answer}
+
+Be encouraging and hint at what to review, without giving away the full answer.
+
+Your feedback:"""
+
+            messages = [
+                {
+                    "role": "system",
+                    "content": "You are a supportive educational AI that provides concise, actionable feedback."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+            
+            payload = {
+                "model": "openai/gpt-4o",
+                "messages": messages,
+                "temperature": 0.7,
+                "max_tokens": 80
+            }
+            
+            response = requests.post(self.openrouter_url, headers=headers, json=payload)
+            
+            if response.status_code == 200:
+                result = response.json()
+                feedback = result.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+                feedback = feedback.strip('"').strip()
+                print(f"[FEEDBACK] Generated: {feedback}")
+                return feedback
+                
+        except Exception as e:
+            print(f"[FEEDBACK] Error generating feedback: {e}")
+        
+        # Fallback
+        return "Great job!" if is_correct else "Not quite right. Review the concept and try to identify the key distinctions."
+    
+    def _generate_intelligent_log(
+        self,
+        concept_id: str,
+        evaluation_result: EvaluationResult,
+        progress_entry: ProgressEntry
+    ) -> str:
+        """
+        Generate intelligent, context-aware log entry using LLM
+        
+        Args:
+            concept_id: Concept reference
+            evaluation_result: Current evaluation result
+            progress_entry: Existing progress entry
+        
+        Returns:
+            Detailed log entry string
+        """
+        try:
+            # Get concept details
+            concept = self.db.get_concept(concept_id)
+            if not concept:
+                return f"[Score: {evaluation_result.score}] {evaluation_result.feedback}"
+            
+            # Get related concepts from knowledge map
+            knowledge_map = self.db.load_knowledge_map()
+            db_data = self.db.load_db()
+            
+            # Build context for LLM
+            context = {
+                "concept_title": concept.title,
+                "concept_content": concept.content[0] if concept.content else "",
+                "current_score": evaluation_result.score,
+                "is_correct": evaluation_result.is_correct,
+                "feedback": evaluation_result.feedback,
+                "previous_freshness": progress_entry.freshness if progress_entry else 0,
+                "attempt_count": len(progress_entry.log) if progress_entry else 0,
+                "previous_logs": progress_entry.log[-2:] if progress_entry and len(progress_entry.log) > 0 else []
+            }
+            
+            # Call LLM to generate insightful log
+            headers = {
+                "Authorization": f"Bearer {self.api_key}",
+                "Content-Type": "application/json"
+            }
+            
+            prompt = f"""As an educational AI tutor, analyze this student's learning progress and generate a concise, insightful log entry.
+
+Concept: {context['concept_title']}
+Description: {context['concept_content']}
+
+Current Performance:
+- Score: {context['current_score']}/100
+- Correct: {context['is_correct']}
+- Feedback: {context['feedback']}
+
+Learning History:
+- Previous Freshness: {context['previous_freshness']:.2f}
+- Attempt #: {context['attempt_count'] + 1}
+- Recent Progress: {context['previous_logs']}
+
+Generate a single-line log entry (60-100 words) that captures:
+1. What the student understands or misunderstands
+2. Specific learning progress or patterns observed
+3. Actionable next steps if needed
+
+Format: [Category] Detailed observation with specific examples and next steps.
+Categories: [Concept], [Vocabulary], [Examples], [Mental Model], [Workflow], [Habits], [Pitfall], [Recognition], [Next]
+
+Example: "[Concept] Initially conflated concurrency with parallelism; after timeline + interleaving demo, can now define both distinctly but still occasionally says 'simultaneous' for concurrency."
+
+Your log entry:"""
+
+            messages = [
+                {
+                    "role": "system",
+                    "content": "You are an expert educational AI that provides detailed, actionable learning insights."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ]
+            
+            payload = {
+                "model": "openai/gpt-4o",
+                "messages": messages,
+                "temperature": 0.7,
+                "max_tokens": 200
+            }
+            
+            response = requests.post(self.openrouter_url, headers=headers, json=payload)
+            
+            if response.status_code == 200:
+                result = response.json()
+                log_content = result.get('choices', [{}])[0].get('message', {}).get('content', '').strip()
+                
+                # Clean up the response (remove extra quotes, etc)
+                log_content = log_content.strip('"').strip()
+                
+                print(f"[LOG] Generated intelligent log: {log_content[:80]}...")
+                return log_content
+            else:
+                print(f"[LOG] LLM call failed, using simple log")
+                
+        except Exception as e:
+            print(f"[LOG] Error generating intelligent log: {e}")
+        
+        # Fallback to simple log
+        return f"[Score: {evaluation_result.score}] {evaluation_result.feedback}"
     
     # ============ Tool 7: decideNext ============
     

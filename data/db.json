@@ -481,6 +481,142 @@
         ],
         "timestamp": "2025-11-08T17:34:39.608807Z",
         "freshness": 0.0
+      },
+      "so-2025-11-08-040": {
+        "title": "Java Inheritance Mechanics",
+        "content": [
+          "Details various mechanics of Java inheritance, including method overriding, the class hierarchy tree, and how dynamic dispatch works."
+        ],
+        "timestamp": "2025-11-08T17:40:33.811467Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-041": {
+        "title": "LoggingList Example",
+        "content": [
+          "Demonstrates reuse via inheritance using a LoggingList as a subclass of IntArrayList to add functionality, like logging all additions to the list."
+        ],
+        "timestamp": "2025-11-08T17:40:33.811467Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-042": {
+        "title": "Payment Card Example",
+        "content": [
+          "An example showing different design approaches (inheritance vs. composition) for implementing payment cards like CreditCard and DebitCard."
+        ],
+        "timestamp": "2025-11-08T17:40:33.811467Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-043": {
+        "title": "Language Enforcement",
+        "content": [
+          "Explains different enforcement mechanisms for subtyping and inheritance in languages like Java and TypeScript."
+        ],
+        "timestamp": "2025-11-08T17:40:33.811467Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-044": {
+        "title": "Abstract Classes and Methods",
+        "content": [
+          "Details the use of abstract classes and methods as a way to define a template for subtypes in object-oriented programming."
+        ],
+        "timestamp": "2025-11-08T17:40:33.811467Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-045": {
+        "title": "Inheritance",
+        "content": [
+          "Inheritance allows a new class to adopt the properties and methods of an existing class, enabling code reuse and polymorphism. However, it may lead to tight coupling and issues like the fragile base class problem."
+        ],
+        "timestamp": "2025-11-08T17:44:30.278950Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-046": {
+        "title": "Class Hierarchies",
+        "content": [
+          "Class hierarchies organize classes in a tree where a superclass shares its structure and behavior with derived subclasses, promoting systematic reuse and specialization of code."
+        ],
+        "timestamp": "2025-11-08T17:44:30.278950Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-047": {
+        "title": "Testing and Subtype Relations",
+        "content": [
+          "Testing with subclasses is crucial to ensure that subclasses adhere to expected behaviors of their superclasses, maintaining strong subtype relationships and preventing integration issues."
+        ],
+        "timestamp": "2025-11-08T17:44:30.278950Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-048": {
+        "title": "Heuristics for Responsibility Assignment",
+        "content": [
+          "When assigning responsibilities in software design, important heuristics include low representational gap, low coupling, high cohesion, and roles such as controller, information expert, and creator."
+        ],
+        "timestamp": "2025-11-08T17:55:10.986647Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-049": {
+        "title": "IntArrayList and LoggingList Example",
+        "content": [
+          "An IntArrayList is an example of implementing a list for integers, using an array. A LoggingList can extend it to add logging functionality. It highlights inheritance benefits and the fragile base class problem."
+        ],
+        "timestamp": "2025-11-08T17:55:10.986647Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-050": {
+        "title": "Coupling and Cohesion in Design",
+        "content": [
+          "Low coupling and high cohesion are crucial design principles. They ensure that a system is modular and maintainable by reducing dependencies between components and increasing the internal consistency within components."
+        ],
+        "timestamp": "2025-11-08T17:55:10.986647Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-051": {
+        "title": "Final Thoughts on Inheritance",
+        "content": [
+          "Deciding to use inheritance should be done with care, as it can increase coupling. Often, composition + delegation are preferred, but inheritance might be suitable when there is a clear ‘is-a’ relationship."
+        ],
+        "timestamp": "2025-11-08T17:55:10.986647Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-052": {
+        "title": "Santorini Game Design",
+        "content": [
+          "The homework assignment involves the initial design and implementation of the Santorini game core API. Students are instructed to claim their GitHub repository to start the project."
+        ],
+        "timestamp": "2025-11-08T17:56:37.121649Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-053": {
+        "title": "Template Method Design Pattern",
+        "content": [
+          "This pattern leverages inheritance where a superclass defines the template of an algorithm, and subclasses implement specific components. It allows for varying parts of an algorithm through subclassing."
+        ],
+        "timestamp": "2025-11-08T17:56:37.121649Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-054": {
+        "title": "Language Enforcement in OOP",
+        "content": [
+          "Languages like Java and TypeScript include constructs such as `final`, `abstract`, and method overriding to enforce or restrict inheritance behavior, promoting structure and preventing misuse."
+        ],
+        "timestamp": "2025-11-08T17:56:37.121649Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-055": {
+        "title": "Delegation for Functionality Extension",
+        "content": [
+          "Delegation involves one object relying on another to perform certain operations. This approach supports code reuse and flexibility, seen in examples like custom sorting orders and logging functionality."
+        ],
+        "timestamp": "2025-11-08T17:56:37.121649Z",
+        "freshness": 0.0
+      },
+      "so-2025-11-08-056": {
+        "title": "PaymentCard Design Variants",
+        "content": [
+          "Different design options for implementing payment cards demonstrate the use of both inheritance and composition, showing trade-offs in terms of code reuse, modularity, and structural design."
+        ],
+        "timestamp": "2025-11-08T17:56:37.121649Z",
+        "freshness": 0.0
       }
     },
     "MACHINE_LEARNING": {

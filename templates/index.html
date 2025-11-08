@@ -22,6 +22,21 @@
             padding: 20px;
         }
 
+        .clippy-icon {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: auto;
+            z-index: 1000;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .clippy-icon:hover {
+            transform: scale(1.1);
+        }
+
         .container {
             max-width: 800px;
             width: 100%;
@@ -83,13 +98,42 @@
         /* Loading Screen */
         #loadingScreen {
             text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .loading-step {
             font-size: 1.1rem;
-            color: #666;
-            margin: 1.5rem 0;
+            color: #333;
+            margin: 1rem 0;
             min-height: 1.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .loading-step.completed {
+            color: #bbb;
+        }
+
+        .loading-step.active {
+            color: #333;
+            font-weight: 500;
+        }
+
+        .loading-dots {
+            display: inline-block;
+            width: 20px;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
         }
 
         .concept-preview {
@@ -99,6 +143,12 @@
             margin: 2rem auto;
             max-width: 600px;
             text-align: left;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .concept-preview.visible {
+            opacity: 1;
         }
 
         .concept-preview-item {
@@ -106,6 +156,13 @@
             padding-left: 1rem;
             color: #555;
             font-size: 0.95rem;
+        }
+
+        .concept-preview-more {
+            text-align: center;
+            color: #999;
+            margin-top: 1rem;
+            font-size: 0.9rem;
         }
 
         .start-quiz-btn {
@@ -382,6 +439,9 @@
     </style>
 </head>
 <body>
+    <!-- Clippy Icon -->
+    <img src="/static/clippy.png" alt="Clippy Assistant" class="clippy-icon" title="Your Learning Assistant">
+    
     <div class="container">
         <h1>CheatSheet</h1>
         
@@ -806,42 +866,49 @@
             document.getElementById('submitAnswerBtn').disabled = true;
             document.getElementById('submitAnswerBtn').textContent = 'Evaluating...';
 
-            // For multiple choice and single choice, do simple check first
+            // Evaluate all answer types
             let isCorrect = false;
+            let needsLLMEval = false;
+            
             if (currentQuiz.type === 'single_choice') {
                 isCorrect = userAnswerIndex === currentQuiz.correct_answer;
             } else if (currentQuiz.type === 'multi_choice') {
                 isCorrect = JSON.stringify(userAnswerIndex.sort()) === JSON.stringify(currentQuiz.correct_answer.sort());
+            } else if (currentQuiz.type === 'short_answer') {
+                needsLLMEval = true;  // Short answer needs LLM evaluation
             }
 
-            // For short answer, use LLM evaluation
-            if (currentQuiz.type === 'short_answer') {
-                try {
-                    const response = await fetch('/api/evaluate_answer', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            user_answer: userAnswerText,
-                            concept_ref: currentQuiz.concept_ref,
-                            concept: currentQuiz.concept
-                        })
-                    });
+            // Call API to record progress for ALL question types
+            try {
+                const response = await fetch('/api/evaluate_answer', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        user_answer: userAnswerText,
+                        concept_ref: currentQuiz.concept_ref,
+                        concept: currentQuiz.concept,
+                        quiz_type: currentQuiz.type,
+                        is_correct: needsLLMEval ? null : isCorrect  // Pre-evaluated for choice questions
+                    })
+                });
 
-                    const data = await response.json();
-                    
-                    if (data.success && data.evaluation) {
+                const data = await response.json();
+                
+                if (data.success && data.evaluation) {
+                    // For short answer, use LLM evaluation result
+                    if (needsLLMEval) {
                         isCorrect = data.evaluation.is_correct;
-                        showFeedback(isCorrect, data.evaluation.feedback);
-                        return;
                     }
-                } catch (err) {
-                    console.error('Error evaluating answer:', err);
+                    showFeedback(isCorrect, data.evaluation.feedback);
+                    return;
                 }
+            } catch (err) {
+                console.error('Error evaluating answer:', err);
             }
 
-            // Show feedback for choice questions
+            // Fallback: Show feedback without API (shouldn't happen normally)
             showFeedback(isCorrect);
         }
 
@@ -897,8 +964,37 @@
             }
         }
 
-        function updateLoadingStep(elementId, text) {
-            document.getElementById(elementId).textContent = text;
+        function updateLoadingStep(elementId, text, options = {}) {
+            const element = document.getElementById(elementId);
+            const isLoading = options.loading || false;
+            const isCompleted = options.completed || false;
+            
+            // Clear previous classes
+            element.classList.remove('active', 'completed');
+            
+            if (isLoading) {
+                // Currently loading - show dots animation
+                element.classList.add('active');
+                element.innerHTML = text + '<span class="loading-dots"></span>';
+            } else if (isCompleted) {
+                // Completed - turn gray
+                element.classList.add('completed');
+                element.textContent = text;
+            } else {
+                // Default - just set text
+                element.textContent = text;
+            }
+        }
+        
+        function completeStep(elementId) {
+            const element = document.getElementById(elementId);
+            element.classList.remove('active');
+            element.classList.add('completed');
+            // Remove loading dots if present
+            const dots = element.querySelector('.loading-dots');
+            if (dots) {
+                dots.remove();
+            }
         }
 
         function sleep(ms) {
