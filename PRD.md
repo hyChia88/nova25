@@ -24,7 +24,7 @@
     3. 将结果解析并写进`pdf2points_example.json`
 2. Generate and display quizes
    1. For each concept point, generate a piece of quiz
-      1. there are 3 kinds of quizes, can be 3 different TOOLs:
+      1. there are 3 kinds of quizes, can be 3 different *TOOL*s:
          1. single choice
          2. multiple choice
          3. short answer
@@ -32,7 +32,7 @@
    2. 
 3. For each quiz: user quiz interaction
    1. let the user answer the quiz
-   2. TOOLs: 
+   2. *TOOL*s: 
       1. evaluate `user_answer`, either it's good or bad:
       2. update the point's `freshness_score`
       3. add an entry in the point's `log` (e.g.: Not familiar with ..., wrong concept of ...; or the user )
