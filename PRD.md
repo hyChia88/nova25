@@ -21,8 +21,26 @@
             },
             ...
         ]
-    3. 将结果解析并写进`pdf2points_example.json`
-2. Generate and display quizes
+2. Process the output and add it to `db.json`
+   1. a pop-up window list the `course`s from the `db.json`
+      1. allow the user to select which `course` these concept points belong to, or let them add a new course to contain them.
+      2. read the concepts in that course and remove any duplicate points.
+      3. process the output and add concept points to `db.json`
+        e.g.: 
+        "COURSES": {
+            "SOFTWARE_CONSTRUCTION": {
+                "sc-2025-01-11-001": {
+                    "title": "Software Construction Overview",
+                    "content": [
+                    "The course focuses on principles related to objects, design, and concurrency in software construction. It includes assignments, exams, and collaborative learning activities."
+                    ],
+                    "timestamp": "2025-01-11T00:00:00Z",
+                    "freshness": 0.18
+                },
+                ...
+            }
+        }
+3. Generate and display quizes
    1. For each concept point, generate a piece of quiz
       1. there are 3 kinds of quizes, can be 3 different *TOOL*s:
          1. single choice
@@ -30,7 +48,7 @@
          3. short answer
       2. the agent should make the decision of using which type/TOOL
    2. 
-3. For each quiz: user quiz interaction
+4. For each quiz: user quiz interaction
    1. let the user answer the quiz
    2. *TOOL*s: 
       1. evaluate `user_answer`, either it's good or bad:
